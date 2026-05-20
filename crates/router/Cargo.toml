@@ -1,0 +1,22 @@
+[package]
+name = "dplmt-router"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Multi-bridge routing engine for the DPLMT diplomatic round table"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+reqwest.workspace = true
+url.workspace = true
+tracing.workspace = true
+async-trait.workspace = true
+
+[features]
+default = []
