@@ -136,16 +136,22 @@ flowchart TB
 
 ## Booths
 
-| Booth | Name | Seal | Strengths |
-|------:|------|:----:|-----------|
-| I     | Wormhole       | A | Battle-tested NTT / Portal lanes |
-| II    | deBridge DLN   | A | Solver-network, sub-minute |
-| III   | Mayan Swift    | A | Fastest EVM <-> Solana |
-| IV    | Stargate (LZ)  | A | Bus/taxi unified liquidity |
-| V     | Allbridge Core | B | Stablecoin specialist |
-| VI    | Hyperlane Warp | B | Long-tail chains |
-| VII   | Across         | A | Optimistic settlement |
-| VIII  | Synapse        | B | Veteran canonical bridge |
+| Booth | Name | Seal | Source | Strengths |
+|------:|------|:----:|:------:|-----------|
+| I     | Wormhole       | A | Estimate | Battle-tested NTT / Portal lanes. Finality + gas modelled from protocol constants. |
+| II    | deBridge DLN   | A | API | `dln.debridge.finance` solver-network quote |
+| III   | Mayan Swift    | A | API | `price-api.mayan.finance` auction quote |
+| IV    | Stargate (LZ)  | A | API | `stargate.finance/api/v1/quotes` bus or taxi |
+| V     | Allbridge Core | B | API | `core.api.allbridgecoreapi.net` stable-channel calculator |
+| VI    | Hyperlane Warp | B | Estimate | Warp-route oracle pricing modelled offline; long-tail chain coverage. |
+| VII   | Across         | A | API | `app.across.to/api/suggested-fees` optimistic relayer |
+| VIII  | Synapse        | B | API | `api.synapseprotocol.com/bridge` veteran route |
+
+> **Source legend**: `API` means the booth's live public quote endpoint is
+> hit on every request. `Estimate` means the engine models finality + fees
+> from on-chain protocol constants rather than calling the SDK at request
+> time. Both booth files document their behaviour in their doc-comments
+> (`crates/router/src/bridges/*.rs`).
 
 ## Intent dictation
 
