@@ -1,6 +1,6 @@
 //! Weighted scoring across booth quotes. Lower score is better.
 
-use crate::booth::{BoothQuote, SecurityRating};
+use crate::booth::BoothQuote;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
