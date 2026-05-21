@@ -11,7 +11,10 @@ pub struct AcrossBooth {
 impl AcrossBooth {
     pub fn new() -> Self {
         Self {
-            client: reqwest::Client::builder().user_agent("dplmt-router/0.6").build().expect("client"),
+            client: reqwest::Client::builder()
+                .user_agent("dplmt-router/0.6")
+                .build()
+                .expect("client"),
         }
     }
 
@@ -57,9 +60,20 @@ impl Booth for AcrossBooth {
         if !res.status().is_success() {
             return Err(RouterError::Upstream(format!("across {}", res.status())));
         }
-        let data: serde_json::Value = res.json().await.map_err(|e| RouterError::Upstream(e.to_string()))?;
-        let relay = data["relayFeePct"].as_str().and_then(|s| s.parse::<f64>().ok()).unwrap_or(0.0) / 1e18;
-        let lp = data["lpFeePct"].as_str().and_then(|s| s.parse::<f64>().ok()).unwrap_or(0.0) / 1e18;
+        let data: serde_json::Value = res
+            .json()
+            .await
+            .map_err(|e| RouterError::Upstream(e.to_string()))?;
+        let relay = data["relayFeePct"]
+            .as_str()
+            .and_then(|s| s.parse::<f64>().ok())
+            .unwrap_or(0.0)
+            / 1e18;
+        let lp = data["lpFeePct"]
+            .as_str()
+            .and_then(|s| s.parse::<f64>().ok())
+            .unwrap_or(0.0)
+            / 1e18;
         let total_fee = relay + lp;
         let amount_out = request.amount * (1.0 - total_fee);
         let fee_usd = request.amount * total_fee;

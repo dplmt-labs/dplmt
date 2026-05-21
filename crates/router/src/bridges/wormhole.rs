@@ -27,10 +27,24 @@ impl Booth for WormholeBooth {
     async fn quote(&self, request: &QuoteRequest) -> Result<BoothQuote, RouterError> {
         let supported = matches!(
             request.from,
-            ChainId::Solana | ChainId::Ethereum | ChainId::Arbitrum | ChainId::Base | ChainId::Polygon | ChainId::Bnb | ChainId::Avalanche | ChainId::Sui
+            ChainId::Solana
+                | ChainId::Ethereum
+                | ChainId::Arbitrum
+                | ChainId::Base
+                | ChainId::Polygon
+                | ChainId::Bnb
+                | ChainId::Avalanche
+                | ChainId::Sui
         ) && matches!(
             request.to,
-            ChainId::Solana | ChainId::Ethereum | ChainId::Arbitrum | ChainId::Base | ChainId::Polygon | ChainId::Bnb | ChainId::Avalanche | ChainId::Sui
+            ChainId::Solana
+                | ChainId::Ethereum
+                | ChainId::Arbitrum
+                | ChainId::Base
+                | ChainId::Polygon
+                | ChainId::Bnb
+                | ChainId::Avalanche
+                | ChainId::Sui
         );
         if !supported {
             return Err(RouterError::QuoteUnavailable);

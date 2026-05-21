@@ -11,7 +11,10 @@ pub struct AllbridgeBooth {
 impl AllbridgeBooth {
     pub fn new() -> Self {
         Self {
-            client: reqwest::Client::builder().user_agent("dplmt-router/0.6").build().expect("client"),
+            client: reqwest::Client::builder()
+                .user_agent("dplmt-router/0.6")
+                .build()
+                .expect("client"),
         }
     }
 
@@ -47,17 +50,17 @@ impl Booth for AllbridgeBooth {
         let res = self
             .client
             .get("https://core.api.allbridgecoreapi.net/swap/calculator")
-            .query(&[
-                ("amount", amount_str.as_str()),
-                ("messenger", "ALLBRIDGE"),
-            ])
+            .query(&[("amount", amount_str.as_str()), ("messenger", "ALLBRIDGE")])
             .send()
             .await
             .map_err(|e| RouterError::Upstream(e.to_string()))?;
         if !res.status().is_success() {
             return Err(RouterError::Upstream(format!("allbridge {}", res.status())));
         }
-        let data: serde_json::Value = res.json().await.map_err(|e| RouterError::Upstream(e.to_string()))?;
+        let data: serde_json::Value = res
+            .json()
+            .await
+            .map_err(|e| RouterError::Upstream(e.to_string()))?;
         let amount_out = data["amountToBeReceived"].as_f64().unwrap_or(0.0);
         let fee_usd = data["fee"].as_f64().unwrap_or(0.0);
 

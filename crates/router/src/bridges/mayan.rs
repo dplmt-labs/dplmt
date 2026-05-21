@@ -13,7 +13,10 @@ impl MayanBooth {
     pub fn new(referrer: Option<String>) -> Self {
         Self {
             referrer,
-            client: reqwest::Client::builder().user_agent("dplmt-router/0.6").build().expect("client"),
+            client: reqwest::Client::builder()
+                .user_agent("dplmt-router/0.6")
+                .build()
+                .expect("client"),
         }
     }
 
@@ -57,9 +60,15 @@ impl Booth for MayanBooth {
         if !res.status().is_success() {
             return Err(RouterError::Upstream(format!("mayan {}", res.status())));
         }
-        let data: serde_json::Value = res.json().await.map_err(|e| RouterError::Upstream(e.to_string()))?;
+        let data: serde_json::Value = res
+            .json()
+            .await
+            .map_err(|e| RouterError::Upstream(e.to_string()))?;
         let list = data.as_array().cloned().unwrap_or_default();
-        let q = list.into_iter().next().ok_or(RouterError::QuoteUnavailable)?;
+        let q = list
+            .into_iter()
+            .next()
+            .ok_or(RouterError::QuoteUnavailable)?;
         let amount_out = q["expectedAmountOut"].as_f64().unwrap_or(0.0);
         let duration_sec = q["eta"].as_u64().unwrap_or(12) as u32;
         let fee_usd = q["totalFeeUsd"].as_f64().unwrap_or(0.5);

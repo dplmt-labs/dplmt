@@ -15,12 +15,12 @@
 //! | Across | [`across`] | `app.across.to/api/suggested-fees` |
 //! | Synapse | [`synapse`] | `api.synapseprotocol.com/bridge` |
 
-pub mod debridge;
-pub mod mayan;
-pub mod stargate;
 pub mod across;
 pub mod allbridge;
+pub mod debridge;
 pub mod hyperlane;
+pub mod mayan;
+pub mod stargate;
 pub mod synapse;
 pub mod wormhole;
 

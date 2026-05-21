@@ -41,20 +41,20 @@
 //! # Ok(()) }
 //! ```
 
-pub mod chain;
 pub mod booth;
 pub mod bridges;
-pub mod scoring;
+pub mod chain;
 pub mod engine;
-pub mod intent;
 pub mod errors;
+pub mod intent;
+pub mod scoring;
 
-pub use chain::{Chain, ChainId};
 pub use booth::{Booth, BoothId, BoothQuote, QuoteRequest, SecurityRating};
-pub use scoring::{best_by, score_quotes, BestBy, ScoredQuote, SortMode};
+pub use chain::{Chain, ChainId};
 pub use engine::{CableResponse, Engine};
-pub use intent::{parse_intent_regex, ParsedIntent, Preference};
 pub use errors::RouterError;
+pub use intent::{parse_intent_regex, ParsedIntent, Preference};
+pub use scoring::{best_by, score_quotes, BestBy, ScoredQuote, SortMode};
 
 /// Crate version, embedded at build time.
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

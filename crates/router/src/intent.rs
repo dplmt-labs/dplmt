@@ -123,7 +123,9 @@ fn find_chains(s: &str) -> Vec<ChainId> {
 }
 
 fn find_tokens(s: &str) -> Vec<String> {
-    let cands = ["usdc", "usdt", "eth", "sol", "wbtc", "btc", "matic", "bnb", "avax", "sui", "dai"];
+    let cands = [
+        "usdc", "usdt", "eth", "sol", "wbtc", "btc", "matic", "bnb", "avax", "sui", "dai",
+    ];
     let mut out: Vec<String> = Vec::new();
     for c in cands {
         if s.contains(c) && !out.contains(&c.to_uppercase()) {

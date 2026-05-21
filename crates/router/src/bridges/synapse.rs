@@ -11,7 +11,10 @@ pub struct SynapseBooth {
 impl SynapseBooth {
     pub fn new() -> Self {
         Self {
-            client: reqwest::Client::builder().user_agent("dplmt-router/0.6").build().expect("client"),
+            client: reqwest::Client::builder()
+                .user_agent("dplmt-router/0.6")
+                .build()
+                .expect("client"),
         }
     }
 
@@ -58,10 +61,19 @@ impl Booth for SynapseBooth {
         if !res.status().is_success() {
             return Err(RouterError::Upstream(format!("synapse {}", res.status())));
         }
-        let data: serde_json::Value = res.json().await.map_err(|e| RouterError::Upstream(e.to_string()))?;
-        let amount_out_raw = data["maxAmountOut"].as_str().and_then(|s| s.parse::<f64>().ok()).unwrap_or(0.0);
+        let data: serde_json::Value = res
+            .json()
+            .await
+            .map_err(|e| RouterError::Upstream(e.to_string()))?;
+        let amount_out_raw = data["maxAmountOut"]
+            .as_str()
+            .and_then(|s| s.parse::<f64>().ok())
+            .unwrap_or(0.0);
         let amount_out = amount_out_raw / 1e6;
-        let fee_raw = data["bridgeFee"].as_str().and_then(|s| s.parse::<f64>().ok()).unwrap_or(0.0);
+        let fee_raw = data["bridgeFee"]
+            .as_str()
+            .and_then(|s| s.parse::<f64>().ok())
+            .unwrap_or(0.0);
         let fee_usd = fee_raw / 1e6;
 
         Ok(BoothQuote {

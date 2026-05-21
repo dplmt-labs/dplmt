@@ -11,7 +11,10 @@ pub struct StargateBooth {
 impl StargateBooth {
     pub fn new() -> Self {
         Self {
-            client: reqwest::Client::builder().user_agent("dplmt-router/0.6").build().expect("client"),
+            client: reqwest::Client::builder()
+                .user_agent("dplmt-router/0.6")
+                .build()
+                .expect("client"),
         }
     }
 
@@ -61,12 +64,24 @@ impl Booth for StargateBooth {
         if !res.status().is_success() {
             return Err(RouterError::Upstream(format!("stargate {}", res.status())));
         }
-        let data: serde_json::Value = res.json().await.map_err(|e| RouterError::Upstream(e.to_string()))?;
+        let data: serde_json::Value = res
+            .json()
+            .await
+            .map_err(|e| RouterError::Upstream(e.to_string()))?;
         let q = data["quotes"]
             .as_array()
-            .and_then(|arr| arr.iter().find(|q| q["route"] == "taxi").cloned().or_else(|| arr.first().cloned()))
+            .and_then(|arr| {
+                arr.iter()
+                    .find(|q| q["route"] == "taxi")
+                    .cloned()
+                    .or_else(|| arr.first().cloned())
+            })
             .ok_or(RouterError::QuoteUnavailable)?;
-        let amount_out = q["dstAmount"].as_str().and_then(|s| s.parse::<f64>().ok()).unwrap_or(0.0) / 1e6;
+        let amount_out = q["dstAmount"]
+            .as_str()
+            .and_then(|s| s.parse::<f64>().ok())
+            .unwrap_or(0.0)
+            / 1e6;
         let duration_sec = if q["route"] == "bus" { 720 } else { 120 };
 
         Ok(BoothQuote {
