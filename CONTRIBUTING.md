@@ -22,7 +22,7 @@ Thanks for stepping into the conference room.
 - Rust 2021, `rustfmt` defaults.
 - Avoid the `dyn` Box pattern unless the call site truly cannot know the type.
 - Public structs are `pub(crate)` by default; only widen on request.
-- No `unimplemented!()`, `todo!()` or `// stub` in main branch.
+- Every public function has a real body and a unit test on main branch.
 - Document every public function with at least one line.
 
 ## License
